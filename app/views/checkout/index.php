@@ -103,7 +103,7 @@ $this->view('/layouts/header-pelanggan', $data);
         <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(201,169,110,.1);">
           <span style="font-size:22px;"><?= htmlspecialchars($item['icon']) ?></span>
           <div style="flex:1;">
-            <div style="font-size:13px;font-weight:600;color:var(--brown-dark);"><?= htmlspecialchars($item['nama']) ?></div>
+            <div style="font-size:13px;font-weight:600;color:var(--brown-dark);"><?= htmlspecialchars($item['nama_produk']) ?></div>
             <div style="font-size:11px;color:var(--text-light);"><?= htmlspecialchars($item['satuan']) ?> × <?= $item['qty'] ?></div>
           </div>
           <strong style="font-size:13px;">Rp <?= number_format($item['harga'] * $item['qty'], 0, ',', '.'); ?></strong>

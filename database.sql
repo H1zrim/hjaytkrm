@@ -93,12 +93,12 @@ CREATE TABLE IF NOT EXISTS detail_pesanan (
 
 -- Admin default: admin@ayatkurma.com / admin123
 INSERT INTO admin (nama, email, password) VALUES
-('Super Admin', 'admin@ayatkurma.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
--- password: admin123 (hash bcrypt)
+('Super Admin', 'admin@ayatkurma.com', '$2y$12$PBuBRS3c83FjeyNrs.8mvuvJR8yzH.9r0aL1oJ8/.LhcPcX2M4Jp6');
+-- password: admin123 (bcrypt)
 
 -- Pelanggan demo: pelanggan@email.com / 123456
 INSERT INTO pelanggan (nama_pengguna, email, password, nama_penerima, no_hp, alamat, kode_pos) VALUES
-('Siti Aminah', 'pelanggan@email.com', '$2y$10$TKh8H1.PjD5f2XdnRpIJKuZ1FzTX.MjCqbNYE0tMcS5jYSt9tF.G6', 'Siti Aminah', '081234567890', 'Jl. Pahlawan No.12 RT 03/RW 02 Kel. Sungai Pinang Dalam, Samarinda', '75117');
+('Siti Aminah', 'pelanggan@email.com', '$2y$12$RkEmNSiKJTin212UjS.zge7kgI4pZBNZD6p/3cAsF3bvsC9IJQAPe', 'Siti Aminah', '081234567890', 'Jl. Pahlawan No.12 RT 03/RW 02 Kel. Sungai Pinang Dalam, Samarinda', '75117');
 -- password: 123456
 
 -- Kategori

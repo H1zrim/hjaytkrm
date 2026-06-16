@@ -18,7 +18,7 @@ if (isset($_SESSION['pelanggan_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title><?= isset($data['judul']) ? htmlspecialchars($data['judul']) : 'Haji Ayat Kurma'; ?> — Haji Ayat Kurma</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Haji Ayat Kurma'; ?> — Haji Ayat Kurma</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@ if (isset($_SESSION['pelanggan_id'])) {
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('logoutModal')">Tidak</button>
       <!-- Mengarah ke AuthController method logout -->
-      <a href="<?= BASEURL; ?>auth/logout" class="btn btn-danger">Ya, Keluar</a>
+      <a href="<?= BASEURL; ?>login/logout" class="btn btn-danger">Ya, Keluar</a>
     </div>
   </div>
 </div>

@@ -43,7 +43,7 @@
           Flasher::flash();
       }
     ?>
-    <form action="<?= BASEURL; ?>loginadmin/prosesLogin" method="POST" novalidate>
+    <form action="<?= BASEURL; ?>admin/login/prosesLogin" method="POST" novalidate>
       <div class="form-group" style="margin-bottom:14px;">
         <label>Email Admin</label>
         <input type="email" name="email" class="form-control"

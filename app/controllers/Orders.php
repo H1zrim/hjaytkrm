@@ -4,14 +4,15 @@ class Orders extends Controller {
     public function index() {
         if (!isset($_SESSION['pelanggan_login']) || $_SESSION['pelanggan_login'] !== true) {
             Flasher::setFlash('error', 'Silakan login terlebih dahulu untuk melihat pesanan Anda.');
-            header('Location: ' . BASEURL . 'auth/login');
+            header('Location: ' . BASEURL . 'login');
             exit;
         }
 
         $pesananModel = $this->model('m_pesanan');
         $statusFilter = isset($_GET['status']) ? trim($_GET['status']) : 'all';
         $data['statusFilter'] = $statusFilter;
-        $data['pageTitle'] = 'Pesanan Saya';
+        $data['pageTitle']    = 'Pesanan Saya';
+        $data['nav_aktif']    = 'orders';
 
         $data['pesananList'] = $pesananModel->getPesananByPelanggan($_SESSION['pelanggan_id'], $statusFilter);
         $data['statusCounts'] = $pesananModel->getStatusCountsByPelanggan($_SESSION['pelanggan_id']);
@@ -26,7 +27,7 @@ class Orders extends Controller {
     public function upload() {
         if (!isset($_SESSION['pelanggan_login']) || $_SESSION['pelanggan_login'] !== true) {
             Flasher::setFlash('error', 'Silakan login terlebih dahulu.');
-            header('Location: ' . BASEURL . 'auth/login');
+            header('Location: ' . BASEURL . 'login');
             exit;
         }
 

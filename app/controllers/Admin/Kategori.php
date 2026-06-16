@@ -1,52 +1,52 @@
 <?php
 
-class Kategori extends Controller {
-
-    public function __construct() {
-        if (!isset($_SESSION['admin_login'])) {
-            header('Location: ' . BASEURL . 'auth/loginadmin');
-            exit;
-        }
-    }
+class Kategori extends AdminBase {
 
     public function index() {
-        $data['pageTitle'] = 'Data Kategori';
-        $data['kategori'] = $this->model('m_kategori')->getAll();
-        
+        $data['pageTitle']     = 'Data Kategori';
+        $data['halaman_aktif'] = 'kategori';
+        $data['kategoriList']  = $this->model('m_kategori')->getAll();
+        $data['editData']      = (isset($_GET['edit']) && (int)$_GET['edit'] > 0)
+                                 ? $this->model('m_kategori')->getKategoriById((int)$_GET['edit'])
+                                 : null;
         $this->renderAdmin('kategori', $data);
     }
 
-    public function tambah() {
-        $data['pageTitle'] = 'Tambah Kategori';
-        $this->renderAdmin('kategori-tambah', $data);
-    }
-
     public function prosesTambah() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($this->model('m_kategori')->tambahData($_POST) > 0) {
-                Flasher::setFlash('success', 'Kategori berhasil ditambah!');
-            } else {
-                Flasher::setFlash('error', 'Gagal menambah kategori.');
-            }
-            header('Location: ' . BASEURL . 'kategori');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASEURL . 'admin/kategori');
             exit;
         }
+        if ($this->model('m_kategori')->tambahData($_POST)) {
+            Flasher::setFlash('success', 'Kategori berhasil ditambahkan!');
+        } else {
+            Flasher::setFlash('error', 'Gagal menambah kategori.');
+        }
+        header('Location: ' . BASEURL . 'admin/kategori');
+        exit;
+    }
+
+    public function prosesEdit() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASEURL . 'admin/kategori');
+            exit;
+        }
+        if ($this->model('m_kategori')->updateData($_POST)) {
+            Flasher::setFlash('success', 'Kategori berhasil diupdate!');
+        } else {
+            Flasher::setFlash('error', 'Gagal update kategori.');
+        }
+        header('Location: ' . BASEURL . 'admin/kategori');
+        exit;
     }
 
     public function hapus($id) {
-        if ($this->model('m_kategori')->hapusData($id) > 0) {
+        if ($this->model('m_kategori')->hapusData((int)$id)) {
             Flasher::setFlash('success', 'Kategori berhasil dihapus!');
         } else {
             Flasher::setFlash('error', 'Gagal menghapus kategori.');
         }
-        header('Location: ' . BASEURL . 'kategori');
+        header('Location: ' . BASEURL . 'admin/kategori');
         exit;
-    }
-
-    private function renderAdmin($view, $data = []) {
-        $this->view('layouts/header-admin', $data);
-        $this->view('layouts/sidebar-admin', $data);
-        $this->view('admin/' . $view, $data);
-        $this->view('layouts/footer-admin', $data);
     }
 }

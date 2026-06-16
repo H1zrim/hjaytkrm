@@ -1,43 +1,44 @@
 <?php
-// config/config.php
 
-// Memuat data dari file .env secara aman jika file tersedia
-if (file_exists(__DIR__ . '/../.env')) {
-    $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
-        list($name, $value) = explode('=', $line, 2);
-        $_ENV[trim($name)] = trim($value);
-    }
-}
+// 1. Path aplikasi (digunakan oleh App.php router)
+define('APP_PATH', dirname(__DIR__) . '/app');
 
-// Definisikan Konstanta Global Aplikasi
-define('BASEURL', $_ENV['BASEURL'] ?? 'http://localhost/haji_ayat_kurma/');
-define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_USER', $_ENV['DB_USER'] ?? 'root');
-define('DB_PASS', $_ENV['DB_PASS'] ?? '');
-define('DB_NAME', $_ENV['DB_NAME'] ?? 'haji_ayat_kurma');
+// 2. BASEURL otomatis — strip "/public" agar URL bersih di XAMPP maupun InfinityFree
+$protocol  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host      = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$scriptDir = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
+$scriptDir = preg_replace('#/public$#', '', $scriptDir); // hapus /public
+define('BASEURL', "$protocol://$host$scriptDir/");
 
-define('SITE_NAME', 'Haji Ayat Kurma');
+// 3. Database — baca dari .env; fallback ke XAMPP lokal
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USERNAME') ?: 'root');
+define('DB_PASS', getenv('DB_PASSWORD') ?: '');
+define('DB_NAME', getenv('DB_DATABASE') ?: 'haji_ayat_kurma');
+
+// 4. Info Aplikasi
+define('SITE_NAME',    getenv('APP_NAME') ?: 'Haji Ayat Kurma');
 define('SITE_TAGLINE', 'Produk Haji & Kurma Pilihan Terbaik');
 
-// Helper Database Global PDO (Melanjutkan getDB dari rancangan Anda)
+// 5. Helper koneksi PDO (singleton)
 function getDB() {
     static $pdo = null;
     if ($pdo === null) {
         try {
             $pdo = new PDO(
-                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-                DB_USER, DB_PASS,
+                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+                DB_USER,
+                DB_PASS,
                 [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 ]
             );
         } catch (PDOException $e) {
-            die('<div style="font-family:sans-serif;padding:40px;color:#c0392b;background:#fff5f5;border:1px solid #fcc;border-radius:8px;margin:40px;text-align:center;">
-                <h3>⚠️ Koneksi Database Gagal</h3>
-                <p>' . htmlspecialchars($e->getMessage()) . '</p>
+            die('<div style="font-family:sans-serif;padding:30px;text-align:center;">
+                <h3>&#9888;&#65039; Koneksi Database Gagal</h3>
+                <p>Pastikan MySQL XAMPP sudah aktif dan database <strong>' . DB_NAME . '</strong> sudah dibuat.</p>
+                <small style="color:#999">Error: ' . htmlspecialchars($e->getMessage()) . '</small>
             </div>');
         }
     }

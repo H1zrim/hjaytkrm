@@ -1,21 +1,22 @@
 <?php
-
 class Controller {
-    // Fungsi memanggil file views murni dengan membawa data terstruktur
     public function view($view, $data = []) {
-        if (file_exists('../app/views/' . $view . '.php')) {
-            require_once '../app/views/' . $view . '.php';
+        // Path absolut dari root project
+        $viewPath = __DIR__ . '/../views/' . $view . '.php';
+        if (file_exists($viewPath)) {
+            extract($data);
+            require_once $viewPath;
         } else {
-            die("View '$view' tidak ditemukan.");
+            die("View tidak ditemukan: " . $viewPath);
         }
     }
 
-    // Fungsi instansiasi kelas model ber-awalan m_
     public function model($model) {
-        if (file_exists('../app/models/' . $model . '.php')) {
-            require_once '../app/models/' . $model . '.php';
+        $modelPath = __DIR__ . '/../models/' . $model . '.php';
+        if (file_exists($modelPath)) {
+            require_once $modelPath;
             return new $model();
         }
-        die("Model '$model' tidak ditemukan.");
+        die("Model tidak ditemukan: " . $modelPath);
     }
 }

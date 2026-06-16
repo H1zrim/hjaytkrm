@@ -4,7 +4,7 @@ class Profile extends Controller {
     public function __construct() {
         if (!isset($_SESSION['pelanggan_login']) || $_SESSION['pelanggan_login'] !== true) {
             Flasher::setFlash('error', 'Silakan login terlebih dahulu untuk mengakses profil.');
-            header('Location: ' . BASEURL . 'auth/login');
+            header('Location: ' . BASEURL . 'login');
             exit;
         }
     }
@@ -15,6 +15,7 @@ class Profile extends Controller {
 
         $activeTab = isset($_GET['tab']) ? trim($_GET['tab']) : 'profil';
         $data['pageTitle'] = 'Profil Saya';
+        $data['nav_aktif'] = 'profile';
         $data['pelanggan'] = $pelanggan;
         $data['activeTab'] = in_array($activeTab, ['profil', 'password'], true) ? $activeTab : 'profil';
         $data['totalPesanan'] = 0;

@@ -12,7 +12,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="document.getElementById('logoutModal').classList.remove('open')">Tidak, Kembali</button>
-      <a href="<?= BASEURL; ?>auth/logoutadmin" class="btn btn-danger">Ya, Keluar</a>
+      <a href="<?= BASEURL; ?>admin/login/logout" class="btn btn-danger">Ya, Keluar</a>
     </div>
   </div>
 </div>

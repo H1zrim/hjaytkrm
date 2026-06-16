@@ -1,31 +1,26 @@
 <?php
-require_once 'app/controllers/Controller.php';
-require_once 'app/core/App.php';
+
 class Pelanggan extends AdminBase {
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    // Menampilkan daftar semua pelanggan
     public function index() {
-        $data['pageTitle'] = 'Data Pelanggan';
-        $data['pelanggan'] = $this->model('m_pelanggan')->getAll();
-        $this->view('admin/pelanggan', $data);
+        $data['pageTitle']     = 'Data Pelanggan';
+        $data['halaman_aktif'] = 'pelanggan';
+        $search                = isset($_GET['q']) ? trim($_GET['q']) : '';
+        $data['pelangganList'] = $this->model('m_pelanggan')->getAllWithStats($search);
+        $data['search']        = $search;
+        $this->renderAdmin('pelanggan', $data);
     }
 
-    // Melihat detail aktivitas pelanggan
     public function detail($id) {
-        $data['pageTitle'] = 'Detail Pelanggan';
-        $data['user'] = $this->model('m_pelanggan')->getPelangganById($id);
-        // Bisa tambahkan riwayat pesanan pelanggan tersebut di sini
-        $data['riwayat'] = $this->model('m_pesanan')->getPesananByPelanggan($id);
-        $this->view('admin/pelanggan_detail', $data);
+        $data['pageTitle']     = 'Detail Pelanggan';
+        $data['halaman_aktif'] = 'pelanggan';
+        $data['user']          = $this->model('m_pelanggan')->getPelangganById((int)$id);
+        $data['riwayat']       = $this->model('m_pesanan')->getPesananByPelanggan((int)$id);
+        $this->renderAdmin('pelanggan', $data);
     }
 
-    // Hapus pelanggan (hati-hati dengan constraint database)
     public function hapus($id) {
-        if ($this->model('m_pelanggan')->hapusData($id) > 0) {
+        if ($this->model('m_pelanggan')->hapusData((int)$id)) {
             Flasher::setFlash('success', 'Pelanggan berhasil dihapus!');
         } else {
             Flasher::setFlash('error', 'Gagal menghapus pelanggan.');

@@ -1,7 +1,3 @@
-<?php
-$this->view('/layouts/header-admin', $data);
-$this->view('/layouts/sidebar-admin', $data);
-?>
 
 <div class="admin-page-header">
   <div>
@@ -170,7 +166,3 @@ $this->view('/layouts/sidebar-admin', $data);
 </div>
 
 <style>@media(max-width:700px){.konfbay-grid{grid-template-columns:1fr!important;}}</style>
-
-<?php
-$this->view('/layouts/footer-admin', $data);
-?>

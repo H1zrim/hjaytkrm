@@ -33,7 +33,7 @@
         }
       ?>
 
-      <form method="POST" action="<?= BASEURL; ?>auth/prosesLogin" novalidate>
+      <form method="POST" action="<?= BASEURL; ?>login/prosesLogin" novalidate>
         <div class="form-group">
           <label>Email</label>
           <input type="email" name="email" class="form-control" placeholder="nama@email.com"
@@ -51,7 +51,7 @@
       </form>
 
       <div class="auth-alt" style="margin-top:16px;">
-        Belum punya akun? <a href="<?= BASEURL; ?>auth/register">Registrasi</a>
+        Belum punya akun? <a href="<?= BASEURL; ?>login/register">Registrasi</a>
       </div>
       <div class="auth-alt" style="margin-top:8px;">
         <a href="#" style="color:var(--text-light);font-size:12px;">Aku melupakan sandiku</a>

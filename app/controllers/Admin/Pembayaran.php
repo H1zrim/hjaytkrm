@@ -1,38 +1,49 @@
 <?php
 
-class Pembayaran extends Controller {
+class Pembayaran extends AdminBase {
 
-    public function __construct() {
-        if (!isset($_SESSION['admin_login'])) {
-            header('Location: ' . BASEURL . 'auth/loginadmin');
-            exit;
-        }
-    }
-
-    // Menampilkan daftar pesanan yang menunggu verifikasi pembayaran
     public function index() {
-        $data['pageTitle'] = 'Verifikasi Pembayaran';
-        // Ambil pesanan yang statusnya 'pending' atau 'menunggu_verifikasi'
-        $data['pesanan'] = $this->model('m_pesanan')->getPesananByStatus('pending');
-        
+        $data['pageTitle']     = 'Konfirmasi Pembayaran';
+        $data['halaman_aktif'] = 'pembayaran';
+        $search                = isset($_GET['q']) ? trim($_GET['q']) : '';
+        $activeId              = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        $pesananModel          = $this->model('m_pesanan');
+        $data['search']        = $search;
+        $data['activeId']      = $activeId;
+        $data['pesananList']   = $pesananModel->getPesananFiltered('processed', $search);
+
+        if ($activeId) {
+            $data['detailPesanan'] = $pesananModel->getById($activeId);
+            $data['detailItems']   = $pesananModel->getDetailItems($activeId);
+        } else {
+            $data['detailPesanan'] = null;
+            $data['detailItems']   = [];
+        }
+
         $this->renderAdmin('pembayaran', $data);
     }
 
-    // Proses Verifikasi Pembayaran (Admin klik "Terima")
-    public function verifikasi($id) {
-        if ($this->model('m_pesanan')->updateStatus($id, 'paid')) {
-            Flasher::setFlash('success', 'Pembayaran berhasil diverifikasi!');
+    public function konfirmasi($id) {
+        if ($this->model('m_pesanan')->updateStatus((int)$id, 'paid')) {
+            Flasher::setFlash('success', 'Pembayaran berhasil dikonfirmasi!');
         } else {
-            Flasher::setFlash('error', 'Gagal verifikasi pembayaran.');
+            Flasher::setFlash('error', 'Gagal konfirmasi pembayaran.');
         }
-        header('Location: ' . BASEURL . 'pembayaran');
+        header('Location: ' . BASEURL . 'admin/pembayaran');
         exit;
     }
 
-    private function renderAdmin($view, $data = []) {
-        $this->view('layouts/header-admin', $data);
-        $this->view('layouts/sidebar-admin', $data);
-        $this->view('admin/' . $view, $data);
-        $this->view('layouts/footer-admin', $data);
+    public function verifikasi($id) {
+        return $this->konfirmasi($id);
+    }
+
+    public function tolak($id) {
+        if ($this->model('m_pesanan')->batalkanPesanan((int)$id)) {
+            Flasher::setFlash('warning', 'Pembayaran ditolak dan pesanan dibatalkan.');
+        } else {
+            Flasher::setFlash('error', 'Gagal menolak pembayaran.');
+        }
+        header('Location: ' . BASEURL . 'admin/pembayaran');
+        exit;
     }
 }

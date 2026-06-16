@@ -4,18 +4,11 @@ class Home extends Controller {
 
     // Halaman Beranda / Katalog Utama
     public function index() {
-        $data['pageTitle'] = 'Katalog Toko Online';
-        
-        // Menangkap filter pencarian dan kategori dari user
-        $search    = isset($_GET['q']) ? trim($_GET['q']) : '';
-        $katFilter = isset($_GET['kat']) ? (int)$_GET['kat'] : 0;
+        $data['pageTitle'] = 'Beranda';
+        $data['nav_aktif'] = 'home';
 
-        // Mengambil data produk & kategori dari Model yang sudah kita buat
-        $data['produkList']  = $this->model('m_produk')->getProdukFiltered($search, $katFilter);
-        $data['kategoriAll'] = $this->model('m_kategori')->getAllKategori();
-        
-        $data['search']    = $search;
-        $data['katFilter'] = $katFilter;
+        $data['produkUnggulan'] = $this->model('m_produk')->getProdukFiltered('', 0);
+        $data['kategoriList']   = $this->model('m_kategori')->getAllKategori();
 
         $this->view('home/index', $data);
     }
@@ -34,6 +27,7 @@ class Home extends Controller {
         }
 
         $data['pageTitle'] = $data['produk']['nama'];
+        $data['nav_aktif'] = 'catalog';
         $this->view('detail/index', $data);
     }
 }

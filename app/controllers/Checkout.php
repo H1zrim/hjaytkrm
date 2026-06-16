@@ -4,7 +4,7 @@ class Checkout extends Controller {
     public function index() {
         if (!isset($_SESSION['pelanggan_login']) || $_SESSION['pelanggan_login'] !== true) {
             Flasher::setFlash('error', 'Silakan login terlebih dahulu untuk melakukan checkout.');
-            header('Location: ' . BASEURL . 'auth/login');
+            header('Location: ' . BASEURL . 'login');
             exit;
         }
 
@@ -15,18 +15,18 @@ class Checkout extends Controller {
         }
 
         $cartItems = $_SESSION['cart'];
-        $subtotal  = 0;
-        foreach ($cartItems as $item) {
-            $subtotal += $item['subtotal'];
-        }
+        $subtotal  = array_sum(array_column($cartItems, 'subtotal'));
+        $ongkir    = $subtotal >= 150000 ? 0 : 15000;
+        $diskon    = 0;
 
         $data['pageTitle'] = 'Checkout Pesanan';
+        $data['nav_aktif'] = 'home';
         $data['pelanggan'] = $this->model('m_pelanggan')->getPelangganById($_SESSION['pelanggan_id']);
         $data['cart']      = $cartItems;
         $data['subtotal']  = $subtotal;
-        $data['ongkir']    = 15000;
-        $data['diskon']    = 0;
-        $data['total']     = $subtotal + $data['ongkir'] - $data['diskon'];
+        $data['ongkir']    = $ongkir;
+        $data['diskon']    = $diskon;
+        $data['total']     = $subtotal + $ongkir - $diskon;
         $data['input']     = [];
 
         $this->view('checkout/index', $data);

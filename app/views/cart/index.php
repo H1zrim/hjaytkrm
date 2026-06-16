@@ -26,7 +26,7 @@ $this->view('/layouts/header-pelanggan', $data);
           <div class="ci-name">
             <div class="ci-icon"><?= htmlspecialchars($item['icon']) ?></div>
             <div class="ci-info">
-              <h4><?= htmlspecialchars($item['nama']) ?></h4>
+              <h4><?= htmlspecialchars($item['nama_produk']) ?></h4>
               <p><?= htmlspecialchars($item['satuan']) ?></p>
               <p style="font-family:'Playfair Display',serif;font-weight:700;color:var(--brown-dark);font-size:14px;margin-top:4px;" class="mobile-price">
                 Rp <?= number_format($item['harga'], 0, ',', '.'); ?>

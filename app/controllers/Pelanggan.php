@@ -6,7 +6,7 @@ class Pelanggan extends Controller {
     public function __construct() {
         if (!isset($_SESSION['pelanggan_login']) || $_SESSION['pelanggan_login'] !== true) {
             Flasher::setFlash('error', 'Akses ditolak. Silakan login terlebih dahulu.');
-            header('Location: ' . BASEURL . 'auth/login');
+            header('Location: ' . BASEURL . 'login');
             exit;
         }
     }

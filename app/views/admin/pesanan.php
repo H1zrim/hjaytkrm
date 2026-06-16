@@ -1,7 +1,3 @@
-<?php
-$this->view('/layouts/header-admin', $data);
-$this->view('/layouts/sidebar-admin', $data);
-?>
 
 <div class="admin-page-header">
   <div>
@@ -162,7 +158,3 @@ function openDetailModal(id) {
     });
 }
 </script>
-
-<?php
-$this->view('/layouts/footer-admin', $data);
-?>

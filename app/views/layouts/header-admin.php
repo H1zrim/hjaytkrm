@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     
-    <title><?= isset($data['judul']) ? htmlspecialchars($data['judul']) : 'Dashboard'; ?> — Admin Haji Ayat Kurma</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Dashboard'; ?> — Admin Haji Ayat Kurma</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,18 +22,7 @@
             <div class="topbar-left">
                 <button class="hamburger" onclick="toggleSidebar()" title="Menu">☰</button>
                 <div class="page-breadcrumb">
-                    <?php if (!empty($data['breadcrumb'])): ?>
-                        <?php foreach ($data['breadcrumb'] as $i => $b): ?>
-                            <?php if ($i > 0) echo ' › '; ?>
-                            <?php if (isset($b['url'])): ?>
-                                <a href="<?= htmlspecialchars($b['url']) ?>"><?= htmlspecialchars($b['label']) ?></a>
-                            <?php else: ?>
-                                <strong><?= htmlspecialchars($b['label']) ?></strong>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <strong><?= isset($data['judul']) ? htmlspecialchars($data['judul']) : 'Dashboard'; ?></strong>
-                    <?php endif; ?>
+                    <strong><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Dashboard'; ?></strong>
                 </div>
             </div>
             
