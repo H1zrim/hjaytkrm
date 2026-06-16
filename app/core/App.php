@@ -8,7 +8,7 @@ class App {
     public function __construct() {
         $url = $this->parseURL();
 
-        // 1. Tentukan apakah request untuk admin
+        // 1. Tentukan jenis request: admin / biasa
         $is_admin = (isset($url[0]) && strtolower($url[0]) === 'admin');
 
         if ($is_admin) {

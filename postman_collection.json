@@ -1,0 +1,277 @@
+{
+  "info": {
+    "name": "Haji Ayat Kurma API",
+    "_postman_id": "haji-ayat-kurma-api-v1",
+    "description": "REST API untuk toko kurma haji-ayat. Base URL: http://localhost/haji_ayat_kurma/api/\n\nAlur penggunaan:\n1. POST /auth/login → salin token dari response\n2. Set variable {{token}} di Environment\n3. Semua endpoint bertanda [Auth] wajib sertakan header Authorization: Bearer {{token}}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost/haji_ayat_kurma/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/auth/login" },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"pelanggan@email.com\",\n  \"password\": \"123456\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/auth/register" },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama_pengguna\": \"Budi Santoso\",\n  \"email\": \"budi@example.com\",\n  \"password\": \"rahasia123\",\n  \"no_hp\": \"081234567890\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Logout [Auth]",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/auth/logout" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        },
+        {
+          "name": "Cek Token (Me) [Auth]",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/auth/me" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Produk (Public)",
+      "item": [
+        {
+          "name": "Daftar Produk",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/produk",
+              "query": [
+                { "key": "q", "value": "", "description": "Cari nama produk" },
+                { "key": "kat", "value": "", "description": "Filter kategori ID" },
+                { "key": "limit", "value": "", "description": "Batas jumlah hasil" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Detail Produk",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/produk/detail/1" }
+          }
+        },
+        {
+          "name": "Cari Produk",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/produk?q=kurma&limit=5",
+              "query": [
+                { "key": "q", "value": "kurma" },
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Kategori (Public)",
+      "item": [
+        {
+          "name": "Daftar Kategori",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/kategori" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Keranjang [Auth]",
+      "item": [
+        {
+          "name": "Lihat Keranjang",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/cart" },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Tambah ke Keranjang",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/cart/add" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produk_id\": 1,\n  \"qty\": 2\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Update Qty Keranjang",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/cart/update" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produk_id\": 1,\n  \"qty\": 3\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Hapus Item dari Keranjang",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/cart/remove" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produk_id\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Kosongkan Keranjang",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/cart/clear" },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checkout [Auth]",
+      "item": [
+        {
+          "name": "Proses Checkout",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/checkout/proses" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama_penerima\": \"Siti Aminah\",\n  \"no_hp\": \"081234567890\",\n  \"alamat\": \"Jl. Pahlawan No.12, Samarinda\",\n  \"kode_pos\": \"75117\",\n  \"catatan\": \"Hubungi sebelum kirim\",\n  \"metode_bayar\": \"transfer\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pesanan [Auth]",
+      "item": [
+        {
+          "name": "Riwayat Pesanan",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/pesanan",
+              "query": [
+                { "key": "status", "value": "all", "description": "all | pending | processed | paid | cancelled" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Detail Pesanan",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/pesanan/detail/1" },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profil [Auth]",
+      "item": [
+        {
+          "name": "Lihat Profil",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/profile" },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Update Profil",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/profile/update" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama_pengguna\": \"Siti Aminah\",\n  \"no_hp\": \"081234567890\",\n  \"nama_penerima\": \"Siti Aminah\",\n  \"alamat\": \"Jl. Pahlawan No.12, Samarinda\",\n  \"kode_pos\": \"75117\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Ganti Password",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/profile/gantiPassword" },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password_lama\": \"123456\",\n  \"password_baru\": \"passwordbaru123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

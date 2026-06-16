@@ -87,6 +87,27 @@ CREATE TABLE IF NOT EXISTS detail_pesanan (
     FOREIGN KEY (produk_id) REFERENCES produk(id)
 );
 
+-- TABEL API TOKENS (autentikasi REST API)
+CREATE TABLE IF NOT EXISTS api_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pelanggan_id INT NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expired_at TIMESTAMP NULL,
+    FOREIGN KEY (pelanggan_id) REFERENCES pelanggan(id) ON DELETE CASCADE
+);
+
+-- TABEL API CART (keranjang untuk REST API, per pelanggan di DB)
+CREATE TABLE IF NOT EXISTS api_cart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pelanggan_id INT NOT NULL,
+    produk_id INT NOT NULL,
+    qty INT NOT NULL DEFAULT 1,
+    UNIQUE KEY uq_cart (pelanggan_id, produk_id),
+    FOREIGN KEY (pelanggan_id) REFERENCES pelanggan(id) ON DELETE CASCADE,
+    FOREIGN KEY (produk_id) REFERENCES produk(id) ON DELETE CASCADE
+);
+
 -- =============================================
 -- DATA AWAL
 -- =============================================
