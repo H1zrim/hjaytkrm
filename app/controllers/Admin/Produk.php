@@ -27,17 +27,17 @@ class Produk extends AdminBase {
             exit;
         }
 
-        $gambar = '';
+        $_POST['foto'] = '';
         if (!empty($_FILES['foto']['name'])) {
             $gambar = $this->uploadFoto();
             if ($gambar === false) {
-                Flasher::setFlash('error', 'Format foto tidak valid. Gunakan JPG/PNG/WEBP.');
-                header('Location: ' . BASEURL . 'admin/produk/tambah');
+                Flasher::setFlash('error', 'Format foto tidak valid. Gunakan JPG/PNG/WEBP (maks 2MB).');
+                header('Location: ' . BASEURL . 'admin/produk');
                 exit;
             }
+            $_POST['foto'] = $gambar;
         }
 
-        $_POST['foto'] = $gambar;
         if ($this->model('m_produk')->tambahData($_POST)) {
             Flasher::setFlash('success', 'Produk berhasil ditambahkan!');
         } else {
@@ -61,11 +61,14 @@ class Produk extends AdminBase {
             exit;
         }
 
+        // Pakai foto lama jika tidak upload foto baru
+        $_POST['foto'] = trim($_POST['foto_lama'] ?? '');
+
         if (!empty($_FILES['foto']['name'])) {
             $gambar = $this->uploadFoto();
             if ($gambar === false) {
-                Flasher::setFlash('error', 'Format foto tidak valid. Gunakan JPG/PNG/WEBP.');
-                header('Location: ' . BASEURL . 'admin/produk/edit/' . (int)$_POST['id']);
+                Flasher::setFlash('error', 'Format foto tidak valid. Gunakan JPG/PNG/WEBP (maks 2MB).');
+                header('Location: ' . BASEURL . 'admin/produk');
                 exit;
             }
             $_POST['foto'] = $gambar;
@@ -92,13 +95,19 @@ class Produk extends AdminBase {
 
     private function uploadFoto() {
         $allowed = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!in_array($_FILES['foto']['type'], $allowed, true)) {
+        $mime    = mime_content_type($_FILES['foto']['tmp_name']);
+        if (!in_array($mime, $allowed, true)) {
+            return false;
+        }
+        if ($_FILES['foto']['size'] > 2 * 1024 * 1024) {
             return false;
         }
         $ext     = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
-        $name    = 'produk_' . time() . '.' . $ext;
-        $destDir = __DIR__ . '/../../../public/images/';
-        if (!is_dir($destDir)) mkdir($destDir, 0755, true);
+        $name    = 'produk_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . strtolower($ext);
+        $destDir = __DIR__ . '/../../../public/uploads/produk/';
+        if (!is_dir($destDir)) {
+            mkdir($destDir, 0755, true);
+        }
         move_uploaded_file($_FILES['foto']['tmp_name'], $destDir . $name);
         return $name;
     }

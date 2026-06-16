@@ -72,7 +72,7 @@ if (!isset($data['pesanan']) || empty($data['pesanan'])):
   <tbody>
     <?php foreach ($items as $item): ?>
       <tr>
-        <td><?= htmlspecialchars($item['icon'] ?? '📦') ?> <?= htmlspecialchars($item['nama_produk']) ?></td>
+        <td style="display:flex;align-items:center;gap:8px;"><?= produk_img($item, '32px', '4px') ?> <?= htmlspecialchars($item['nama_produk']) ?></td>
         <td><?= htmlspecialchars($item['satuan']) ?></td>
         <td>Rp <?= number_format($item['harga'], 0, ',', '.') ?></td>
         <td>×<?= (int)$item['qty'] ?></td>

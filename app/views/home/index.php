@@ -46,7 +46,11 @@ $this->view('/layouts/header-pelanggan', $data);
     <?php foreach ($data['produkUnggulan'] as $p): ?>
       <a href="<?= BASEURL; ?>catalog/detail/<?= $p['id'] ?>" class="product-card" style="text-decoration:none;">
         <div class="prod-img">
-          <?= htmlspecialchars($p['icon']) ?>
+          <?php if (!empty($p['foto'])): ?>
+            <img src="<?= BASEURL ?>uploads/produk/<?= htmlspecialchars($p['foto']) ?>" alt="<?= htmlspecialchars($p['nama']) ?>" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+          <?php else: ?>
+            <?= htmlspecialchars($p['icon']) ?>
+          <?php endif; ?>
           <?php if ($p['badge']): ?><div class="prod-badge"><?= htmlspecialchars($p['badge']) ?></div><?php endif; ?>
         </div>
         <div class="prod-body">

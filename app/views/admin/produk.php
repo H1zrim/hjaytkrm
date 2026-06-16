@@ -53,7 +53,7 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Icon</th>
+            <th>Foto</th>
             <th>Nama Produk</th>
             <th>Kategori</th>
             <th>Harga</th>
@@ -67,7 +67,7 @@
           <?php foreach ($data['produkList'] as $i => $p): ?>
             <tr>
               <td><?= $i + 1 ?></td>
-              <td style="font-size:22px;text-align:center;"><?= htmlspecialchars($p['icon']) ?></td>
+              <td style="text-align:center;"><?= produk_img($p, '44px', '6px') ?></td>
               <td>
                 <strong><?= htmlspecialchars($p['nama']) ?></strong>
                 <?php if (!empty($p['deskripsi'])): ?>
@@ -108,12 +108,18 @@
       <h3>➕ Tambah Produk Baru</h3>
       <button class="modal-close" onclick="closeModal('modalTambah')">✕</button>
     </div>
-    <form method="POST" action="<?= BASEURL; ?>admin/produk/prosesTambah">
+    <form method="POST" action="<?= BASEURL; ?>admin/produk/prosesTambah" enctype="multipart/form-data">
       <div class="modal-body">
         <div class="form-grid">
           <div class="form-group form-full">
             <label>Nama Produk *</label>
             <input type="text" name="nama" class="form-control" placeholder="cth: Kurma Ajwa Premium" required>
+          </div>
+          <div class="form-group form-full">
+            <label>Foto Produk (JPG/PNG/WEBP, maks 2MB)</label>
+            <input type="file" name="foto" class="form-control" accept="image/jpeg,image/png,image/webp"
+                   onchange="previewFoto(this,'prevTambah')">
+            <img id="prevTambah" src="" alt="" style="display:none;margin-top:8px;width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border-sand);">
           </div>
           <div class="form-group">
             <label>Kategori</label>
@@ -164,13 +170,22 @@
       <h3>✏️ Edit Produk</h3>
       <button class="modal-close" onclick="closeModal('modalEdit')">✕</button>
     </div>
-    <form method="POST" action="<?= BASEURL; ?>admin/produk/prosesEdit" id="formEdit">
+    <form method="POST" action="<?= BASEURL; ?>admin/produk/prosesEdit" id="formEdit" enctype="multipart/form-data">
       <input type="hidden" name="id" id="edit_id">
+      <input type="hidden" name="foto_lama" id="edit_foto_lama">
       <div class="modal-body">
         <div class="form-grid">
           <div class="form-group form-full">
             <label>Nama Produk *</label>
             <input type="text" name="nama" id="edit_nama" class="form-control" required>
+          </div>
+          <div class="form-group form-full">
+            <label>Foto Produk (kosongkan jika tidak ingin mengganti)</label>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <img id="prevEdit" src="" alt="" style="width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid var(--border-sand);">
+              <input type="file" name="foto" class="form-control" accept="image/jpeg,image/png,image/webp"
+                     onchange="previewFoto(this,'prevEdit')">
+            </div>
           </div>
           <div class="form-group">
             <label>Kategori</label>
@@ -227,9 +242,25 @@ function openEditModal(p){
   document.getElementById('edit_icon').value = p.icon;
   document.getElementById('edit_badge').value = p.badge;
   document.getElementById('edit_desk').value = p.deskripsi;
+  document.getElementById('edit_foto_lama').value = p.foto || '';
+  const prev = document.getElementById('prevEdit');
+  if (p.foto) {
+    prev.src = '<?= BASEURL ?>uploads/produk/' + p.foto;
+    prev.style.display = 'block';
+  } else {
+    prev.src = ''; prev.style.display = 'none';
+  }
   const sel = document.getElementById('edit_kategori');
   for(let o of sel.options){ if(o.value == p.kategori_id){ o.selected=true; break; } }
   openModal('modalEdit');
+}
+function previewFoto(input, targetId) {
+  const prev = document.getElementById(targetId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => { prev.src = e.target.result; prev.style.display = 'block'; };
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 </script>
 

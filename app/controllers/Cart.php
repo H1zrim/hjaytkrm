@@ -63,6 +63,7 @@ class Cart extends Controller {
                 'id'          => $produk['id'],
                 'nama_produk' => $produk['nama'],
                 'icon'        => $produk['icon'],
+                'foto'        => $produk['foto'] ?? '',
                 'satuan'      => $produk['satuan'],
                 'harga'       => $produk['harga'],
                 'stok'        => $produk['stok'],

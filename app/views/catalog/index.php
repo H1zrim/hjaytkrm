@@ -63,7 +63,11 @@ $this->view('/layouts/header-pelanggan', $data);
       <?php foreach ($data['produkList'] as $p): ?>
         <a href="<?= BASEURL; ?>catalog/detail/<?= $p['id'] ?>" class="product-card" style="text-decoration:none;">
           <div class="prod-img">
-            <?= htmlspecialchars($p['icon']) ?>
+            <?php if (!empty($p['foto'])): ?>
+              <img src="<?= BASEURL ?>uploads/produk/<?= htmlspecialchars($p['foto']) ?>" alt="<?= htmlspecialchars($p['nama']) ?>" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+            <?php else: ?>
+              <?= htmlspecialchars($p['icon']) ?>
+            <?php endif; ?>
             <?php if ($p['badge']): ?><div class="prod-badge"><?= htmlspecialchars($p['badge']) ?></div><?php endif; ?>
             <?php if ($p['stok'] == 0): ?>
               <div style="position:absolute;inset:0;background:rgba(42,29,10,.5);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:700;border-radius:0;">Stok Habis</div>

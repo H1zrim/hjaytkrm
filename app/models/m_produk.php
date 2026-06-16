@@ -53,19 +53,20 @@ class m_produk {
 
     // Tambah Produk Baru
     public function tambahProduk($data) {
-        $query = "INSERT INTO " . $this->table . " (kategori_id, nama, deskripsi, harga, stok, satuan, icon, badge) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        
+        $query = "INSERT INTO " . $this->table . " (kategori_id, nama, deskripsi, harga, stok, satuan, icon, badge, foto)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         $stmt = $this->db->prepare($query);
         return $stmt->execute([
             (int)$data['kategori_id'],
             trim($data['nama']),
-            trim($data['deskripsi']),
+            trim($data['deskripsi'] ?? ''),
             (float)$data['harga'],
             max(0, (int)$data['stok']),
-            trim($data['satuan']),
-            trim($data['icon']),
-            trim($data['badge'])
+            trim($data['satuan'] ?? ''),
+            trim($data['icon'] ?? '📦'),
+            trim($data['badge'] ?? ''),
+            trim($data['foto'] ?? ''),
         ]);
     }
 
@@ -75,21 +76,22 @@ class m_produk {
 
     // Update Data Produk
     public function updateProduk($data) {
-        $query = "UPDATE " . $this->table . " 
-                  SET kategori_id = ?, nama = ?, deskripsi = ?, harga = ?, stok = ?, satuan = ?, icon = ?, badge = ? 
+        $query = "UPDATE " . $this->table . "
+                  SET kategori_id = ?, nama = ?, deskripsi = ?, harga = ?, stok = ?, satuan = ?, icon = ?, badge = ?, foto = ?
                   WHERE id = ?";
-        
+
         $stmt = $this->db->prepare($query);
         return $stmt->execute([
             (int)$data['kategori_id'],
             trim($data['nama']),
-            trim($data['deskripsi']),
+            trim($data['deskripsi'] ?? ''),
             (float)$data['harga'],
             max(0, (int)$data['stok']),
-            trim($data['satuan']),
-            trim($data['icon']),
-            trim($data['badge']),
-            (int)$data['id']
+            trim($data['satuan'] ?? ''),
+            trim($data['icon'] ?? '📦'),
+            trim($data['badge'] ?? ''),
+            trim($data['foto'] ?? ''),
+            (int)$data['id'],
         ]);
     }
 

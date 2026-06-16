@@ -24,7 +24,7 @@ $this->view('/layouts/header-pelanggan', $data);
       <?php foreach ($data['cart'] as $key => $item): ?>
         <div class="cart-item">
           <div class="ci-name">
-            <div class="ci-icon"><?= htmlspecialchars($item['icon']) ?></div>
+            <div class="ci-icon"><?= produk_img($item, '44px', '8px') ?></div>
             <div class="ci-info">
               <h4><?= htmlspecialchars($item['nama_produk']) ?></h4>
               <p><?= htmlspecialchars($item['satuan']) ?></p>

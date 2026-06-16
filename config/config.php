@@ -10,11 +10,11 @@ $scriptDir = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
 $scriptDir = preg_replace('#/public$#', '', $scriptDir); // hapus /public
 define('BASEURL', "$protocol://$host$scriptDir/");
 
-// 3. Database — baca dari .env; fallback ke XAMPP lokal
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USER', getenv('DB_USERNAME') ?: 'root');
-define('DB_PASS', getenv('DB_PASSWORD') ?: '');
-define('DB_NAME', getenv('DB_DATABASE') ?: 'haji_ayat_kurma');
+// 3. Database — baca dari .env;
+define('DB_HOST', getenv('DB_HOST') ?: 'sql211.infinityfree.com');
+define('DB_USER', getenv('DB_USERNAME') ?: 'if0_41691367');
+define('DB_PASS', getenv('DB_PASSWORD') ?: 'hizbullah122305');
+define('DB_NAME', getenv('DB_DATABASE') ?: 'if0_41691367_haji_ayat_kurma');
 
 // 4. Info Aplikasi
 define('SITE_NAME',    getenv('APP_NAME') ?: 'Haji Ayat Kurma');

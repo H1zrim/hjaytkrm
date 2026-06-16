@@ -66,7 +66,7 @@ $this->view('/layouts/header-pelanggan', $data);
 
         <?php foreach ($p['items'] as $item): ?>
           <div class="oc-item">
-            <div class="oc-item-icon"><?= htmlspecialchars($item['icon'] ?? '📦') ?></div>
+            <div class="oc-item-icon"><?= produk_img($item, '38px', '6px') ?></div>
             <div>
               <div class="oc-item-name"><?= htmlspecialchars($item['nama_produk']) ?></div>
               <div class="oc-item-qty"><?= htmlspecialchars($item['satuan']) ?> × <?= $item['qty'] ?></div>

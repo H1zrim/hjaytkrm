@@ -83,7 +83,7 @@ class m_pesanan {
 
     public function getDetailItems($pesananId) {
         $stmt = $this->db->prepare(
-            "SELECT dp.*, pr.icon
+            "SELECT dp.*, pr.icon, pr.foto
              FROM detail_pesanan dp
              LEFT JOIN produk pr ON pr.id = dp.produk_id
              WHERE dp.pesanan_id = ?"

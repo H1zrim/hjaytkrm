@@ -53,8 +53,8 @@ class Pesanan extends AdminBase {
         echo '<p style="margin-bottom:10px;"><strong>Status:</strong> <span class="badge badge-' . htmlspecialchars($pesanan['status']) . '">' . htmlspecialchars($statusLabels[$pesanan['status']] ?? $pesanan['status']) . '</span></p>';
         echo '<hr style="border-color:rgba(201,169,110,.2);margin:10px 0;">';
         foreach ($items as $item) {
-            echo '<div style="display:flex;justify-content:space-between;padding:5px 0;">';
-            echo '<span>' . htmlspecialchars($item['icon'] ?? '📦') . ' ' . htmlspecialchars($item['nama_produk']) . ' ×' . (int)$item['qty'] . '</span>';
+            echo '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0;">';
+            echo '<span style="display:flex;align-items:center;gap:6px;">' . produk_img($item, '28px', '4px') . ' ' . htmlspecialchars($item['nama_produk']) . ' ×' . (int)$item['qty'] . '</span>';
             echo '<strong>Rp ' . number_format($item['subtotal'], 0, ',', '.') . '</strong>';
             echo '</div>';
         }

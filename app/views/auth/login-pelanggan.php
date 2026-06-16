@@ -56,10 +56,6 @@
       <div class="auth-alt" style="margin-top:8px;">
         <a href="#" style="color:var(--text-light);font-size:12px;">Aku melupakan sandiku</a>
       </div>
-
-      <div style="background:rgba(201,169,110,.06);border:1px dashed rgba(201,169,110,.3);border-radius:8px;padding:10px 12px;margin-top:16px;font-size:12px;color:var(--text-light);line-height:1.7;">
-        <strong style="color:var(--accent-gold);">Demo:</strong> pelanggan@email.com / 123456
-      </div>
     </div>
   </div>
 

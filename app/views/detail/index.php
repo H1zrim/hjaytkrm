@@ -13,12 +13,30 @@ $this->view('/layouts/header-pelanggan', $data);
 
 <div class="detail-layout">
   <div>
-    <div class="detail-img-main" id="mainImg"><?= htmlspecialchars($data['produk']['icon']) ?></div>
-    <div class="detail-thumbs">
-      <div class="thumb active" onclick="document.getElementById('mainImg').textContent='<?= htmlspecialchars($data['produk']['icon']) ?>'"><?= htmlspecialchars($data['produk']['icon']) ?></div>
-      <div class="thumb" onclick="document.getElementById('mainImg').textContent='📦'">📦</div>
-      <div class="thumb" onclick="document.getElementById('mainImg').textContent='🏷️'">🏷️</div>
+    <?php $hasFoto = !empty($data['produk']['foto']); ?>
+    <div class="detail-img-main" id="mainImg" style="<?= $hasFoto ? 'padding:0;overflow:hidden;' : '' ?>">
+      <?php if ($hasFoto): ?>
+        <img id="mainImgEl" src="<?= BASEURL ?>uploads/produk/<?= htmlspecialchars($data['produk']['foto']) ?>"
+             alt="<?= htmlspecialchars($data['produk']['nama']) ?>"
+             style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+      <?php else: ?>
+        <?= htmlspecialchars($data['produk']['icon']) ?>
+      <?php endif; ?>
     </div>
+    <?php if ($hasFoto): ?>
+    <div class="detail-thumbs">
+      <div class="thumb active">
+        <img src="<?= BASEURL ?>uploads/produk/<?= htmlspecialchars($data['produk']['foto']) ?>"
+             alt="" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
+      </div>
+    </div>
+    <?php else: ?>
+    <div class="detail-thumbs">
+      <div class="thumb active"><?= htmlspecialchars($data['produk']['icon']) ?></div>
+      <div class="thumb">📦</div>
+      <div class="thumb">🏷️</div>
+    </div>
+    <?php endif; ?>
   </div>
 
   <div>

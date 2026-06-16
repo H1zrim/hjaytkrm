@@ -49,7 +49,7 @@
       <div class="stok-row">
         
         <div class="stok-info">
-          <div class="stok-icon"><?= htmlspecialchars($p['icon']) ?></div>
+          <div class="stok-icon"><?= produk_img($p, '40px', '8px') ?></div>
           <div>
             <div class="stok-name"><?= htmlspecialchars($p['nama']) ?></div>
             <div class="stok-cat"><?= htmlspecialchars($p['nama_kategori'] ?? '-') ?> · <?= htmlspecialchars($p['satuan']) ?></div>

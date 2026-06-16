@@ -52,7 +52,12 @@ spl_autoload_register(function ($className) {
     }
 });
 
-// 5. Jalankan Router
+// 5. Load Helpers
+if (file_exists(__DIR__ . '/../app/core/helpers.php')) {
+    require_once __DIR__ . '/../app/core/helpers.php';
+}
+
+// 6. Jalankan Router
 if (class_exists('App')) {
     new App();
 } else {

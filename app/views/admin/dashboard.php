@@ -133,7 +133,7 @@ if ($pendingPesanan > 0 || $processedPesanan > 0):
         <?php foreach ($data['lowStok'] as $l): ?>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,169,110,.1);">
             <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
-              <span><?= htmlspecialchars($l['icon']) ?></span> <?= htmlspecialchars($l['nama']) ?>
+              <?= produk_img($l, '28px', '4px') ?> <?= htmlspecialchars($l['nama']) ?>
             </div>
             <span class="badge <?= $l['stok'] <= 5 ? 'badge-cancelled' : 'badge-pending' ?>">
               <?= (int)$l['stok'] ?> unit
